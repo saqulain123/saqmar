@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Forever Valentine - Mariya Babe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ffeef8 0%, #fff5f7 50%, #ffe8f0 100%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c94b7a 100%);
+            transform: rotate(45deg);
+            animation: float 10s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c94b7a 100%);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(45deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-30px) rotate(45deg);
+                opacity: 0.9;
+            }
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #800020;
+            white-space: nowrap;
+            animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+            display: inline-block;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #800020 }
+        }
+
+        /* Envelope Animation */
+        .envelope {
+            perspective: 1000px;
+        }
+
+        .envelope-content {
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+        }
+
+        .envelope-content.open {
+            transform: rotateX(-180deg);
+        }
+
+        .letter {
+            background: linear-gradient(to bottom, #fff 0%, #fef9f9 100%);
+            border: 2px solid #d4af37;
+            box-shadow: 0 10px 40px rgba(128, 0, 32, 0.3);
+        }
+
+        /* Runaway Button */
+        .no-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Gold Shimmer */
+        .gold-shimmer {
+            background: linear-gradient(90deg, #d4af37 0%, #f4e5a1 50%, #d4af37 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Heart Icon */
+        .heart-icon {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .heart-icon::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #800020 0%, #c94b7a 100%);
+            transform: rotate(45deg);
+            top: 0;
+            left: 0;
+        }
+
+        .heart-icon::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #800020 0%, #c94b7a 100%);
+            border-radius: 50%;
+            top: -30px;
+            left: 0;
+        }
+
+        .heart-icon span {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #800020 0%, #c94b7a 100%);
+            border-radius: 50%;
+            top: 0;
+            left: -30px;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Floating Hearts Background -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Hidden Audio Player (plays on first interaction) -->
+    <audio id="background-music" loop>
+        <source src="https://files.catbox.moe/yrd7p2.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+            <div class="text-center max-w-4xl mx-auto fade-in">
+                <div class="heart-icon mx-auto mb-8 pulse">
+                    <span></span>
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-800">
+                    <span class="typewriter" id="typewriter">To My Forever Valentine</span>
+                </h1>
+                
+                <div class="space-y-6 text-lg md:text-xl text-gray-700 leading-relaxed mb-12" id="message">
+                    <p class="fade-in" style="animation-delay: 3.5s; opacity: 0;">
+                        My Dearest <span class="gold-shimmer font-semibold">Mariya Khair</span>,
+                    </p>
+                    <p class="fade-in" style="animation-delay: 4.5s; opacity: 0;">
+                        Every moment with you feels like a dream I never want to wake up from🥹. 
+                        You've turned my world into a canvas of endless love and joy💕.
+                    </p>
+                    <p class="fade-in" style="animation-delay: 5.5s; opacity: 0;">
+                        This Valentine's Day, I have something special to ask you...
+                    </p>
+                </div>
+
+                <!-- Question Section -->
+                <div id="question-section" class="fade-in mt-12" style="animation-delay: 6.5s; opacity: 0;">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-800">
+                        Will you be my Valentine? ❤️
+                    </h2>
+                    
+                    <div class="flex gap-6 justify-center items-center flex-wrap">
+                        <button id="yes-button" 
+                                class="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-12 py-4 rounded-full text-xl font-semibold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                            Yes! 💕
+                        </button>
+                        
+                        <button id="no-button" 
+                                class="no-button bg-gray-300 text-gray-700 px-12 py-4 rounded-full text-xl font-semibold shadow-lg">
+                            No
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Love Letter (Hidden Initially) -->
+        <section id="letter-section" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+            <div class="max-w-3xl w-full">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4">
+                        I Knew You'd Say Yes! 💖
+                    </h2>
+                </div>
+
+                <div class="envelope">
+                    <div class="letter rounded-lg p-8 md:p-12 space-y-6">
+                        <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">My Feelings for You💖</h3>
+                            <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-rose-600 mx-auto"></div>
+                        </div>
+
+                        <div class="space-y-4 text-gray-700 leading-relaxed text-base md:text-lg">
+                            <p class="italic">My Mariya,</p>
+                            
+                            <p>
+                                From the moment you came into my life, everything changed. You brought colors to my 
+                                black and white world, music to my silent days, and a smile that I never want to lose it (like your current smile😗).
+                            </p>
+
+                            <p>
+                                Every morning when I open my eyes, my first thought is of you. Every night before I sleep, 
+                                you're the last thing on my mind. You've become the rhythm of my heartbeat, the reason 
+                                behind my smile, and the answer to all my dua obviously.
+                            </p>
+
+                            <p>
+                                Your laugh is the sweetest sound I've ever heard like hehehe wala. Your eyes hold galaxies I want to explore 
+                                forever💕. Your touch makes my heart skip beats I didn't know existed. With you, even the 
+                                ordinary moments feel like magic.
+                            </p>
+
+                            <p>
+                                I fall in love with you more with each passing day🥰 with the way you care for me when i m with you, the way you make everything feel 
+                                so right. You're not just my love, you're my home, my peace, my everything.
+                            </p>
+
+                            <p>
+                                This Valentine's Day, I want you to know that choosing you was the easiest decision I ever 
+                                made💕, and loving you is the most beautiful adventure of my life and you know you well because gussa me to kuch sunti hi nhi ho tummmm😤.
+                            </p>
+
+                            <p>
+                                Thank you for being mine. Thank you for loving me. Thank you for just... being you💕.
+                            </p>
+
+                            <p>
+                                I love you more than words can say, more than stars in the sky, more than forever. ❤️
+                            </p>
+
+                            <p class="text-center mt-8">
+                                <span class="text-2xl">Forever and Always,</span><br>
+                                <span class="text-3xl font-bold bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mt-2 inline-block">Saqulain</span>
+                            </p>
+
+                            <div class="text-center mt-8 pt-6 border-t-2 border-pink-200">
+                                <p class="text-sm text-gray-600 italic">
+                                    "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button onclick="location.reload()" 
+                            class="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                        Start Over 💝
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Background music - plays on first interaction
+        let musicPlayed = false;
+        const bgMusic = document.getElementById('background-music');
+
+        function playMusic() {
+            if (!musicPlayed && bgMusic) {
+                bgMusic.play().catch(e => console.log('Audio play failed:', e));
+                musicPlayed = true;
+            }
+        }
+
+        // Play music on any click
+        document.addEventListener('click', playMusic, { once: true });
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartCount = 15;
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Typewriter effect completion
+        setTimeout(() => {
+            const typewriter = document.getElementById('typewriter');
+            typewriter.style.borderRight = 'none';
+            
+            // Fade in message paragraphs
+            document.querySelectorAll('#message p').forEach(p => {
+                p.style.opacity = '1';
+            });
+
+            // Fade in question section
+            const questionSection = document.getElementById('question-section');
+            questionSection.style.opacity = '1';
+        }, 3000);
+
+        // Runaway "No" button
+        const noButton = document.getElementById('no-button');
+        let noButtonClicks = 0;
+
+        noButton.addEventListener('mouseenter', function(e) {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+
+            let newX = Math.random() * (windowWidth - buttonWidth - 100) + 50;
+            let newY = Math.random() * (windowHeight - buttonHeight - 100) + 50;
+
+            noButton.style.position = 'fixed';
+            noButton.style.left = newX + 'px';
+            noButton.style.top = newY + 'px';
+            
+            // Make the button smaller each time
+            noButtonClicks++;
+            const newSize = Math.max(0.5, 1 - (noButtonClicks * 0.1));
+            noButton.style.transform = `scale(${newSize})`;
+
+            // Change button text
+            const messages = ['Are you sure?😉', 'Really?😂', 'Think again😉', 'Come on😗', 'Pretty please🥹?'];
+            if (noButtonClicks <= messages.length) {
+                noButton.textContent = messages[noButtonClicks - 1];
+            }
+        });
+
+        // Yes button - Trigger confetti and show letter
+        document.getElementById('yes-button').addEventListener('click', function() {
+            // Massive confetti celebration
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#ff6b9d', '#c94b7a', '#800020', '#d4af37', '#f4e5a1']
+                }));
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#ff6b9d', '#c94b7a', '#800020', '#d4af37', '#f4e5a1']
+                }));
+            }, 250);
+
+            // Hide hero, show letter after a brief delay
+            setTimeout(() => {
+                document.getElementById('hero').classList.add('hidden');
+                document.getElementById('letter-section').classList.remove('hidden');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+
+        // Initialize floating hearts
+        createFloatingHearts();
+    </script>
+</body>
+</html>
