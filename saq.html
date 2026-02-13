@@ -227,7 +227,7 @@
                         Will you be my Valentine? ❤️
                     </h2>
                     
-                    <div class="flex gap-6 justify-center items-center flex-wrap">
+                    <div class="flex gap-6 justify-center items-center flex-wrap min-h-[80px]"></div>
                         <button id="yes-button" 
                                 class="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-12 py-4 rounded-full text-xl font-semibold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                             Yes! 💕
@@ -247,7 +247,7 @@
             <div class="max-w-3xl w-full">
                 <div class="text-center mb-8">
                     <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4">
-                        I Knew You'd Say Yes! 💖
+                        I Knew You'd Say Yes!🥱
                     </h2>
                 </div>
 
@@ -269,7 +269,7 @@
                             <p>
                                 Every morning when I open my eyes, my first thought is of you. Every night before I sleep, 
                                 you're the last thing on my mind. You've become the rhythm of my heartbeat, the reason 
-                                behind my smile, and the answer to all my dua obviously.
+                                behind my smile, and the answer to all my dua obviously my jigarrrrr💕.
                             </p>
 
                             <p>
@@ -279,7 +279,7 @@
                             </p>
 
                             <p>
-                                I fall in love with you more with each passing day🥰 with the way you care for me when i m with you, the way you make everything feel 
+                                I fall in love with you more with each passing day🥰 with the way you care for me when i m with you or when 2000km far🥹, the way you make everything feel 
                                 so right. You're not just my love, you're my home, my peace, my everything.
                             </p>
 
@@ -304,6 +304,8 @@
                             <div class="text-center mt-8 pt-6 border-t-2 border-pink-200">
                                 <p class="text-sm text-gray-600 italic">
                                     "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."
+                                    <br>
+                                    <p>~🫀</p>
                                 </p>
                             </div>
                         </div>
@@ -333,7 +335,7 @@
         }
 
         // Play music on any click
-        document.addEventListener('click', playMusic, { once: true });
+        // document.addEventListener('click', playMusic, { once: true });
 
         // Create floating hearts
         function createFloatingHearts() {
@@ -370,7 +372,8 @@
         const noButton = document.getElementById('no-button');
         let noButtonClicks = 0;
 
-        noButton.addEventListener('mouseenter', function(e) {
+            // Function to move the button (used by both desktop and mobile)
+        function moveNoButton() {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             const buttonWidth = noButton.offsetWidth;
@@ -393,11 +396,47 @@
             if (noButtonClicks <= messages.length) {
                 noButton.textContent = messages[noButtonClicks - 1];
             }
-        });
+        }
 
+        // For desktop - hover
+        noButton.addEventListener('mouseenter', moveNoButton);
+
+        noButton.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    
+    // Make button disappear
+    noButton.style.opacity = '0';
+    noButton.style.transition = 'opacity 0.3s ease';
+    
+    // Update text and size while invisible
+    noButtonClicks++;
+    const newSize = Math.max(0.5, 1 - (noButtonClicks * 0.1));
+    const messages = ['Are you sure?😉', 'Really?😂', 'Think again😉', 'Come on😗', 'Pretty please🥹?'];
+    if (noButtonClicks <= messages.length) {
+        noButton.textContent = messages[noButtonClicks - 1];
+    }
+    
+    // After 500ms, move to new position and reappear
+    setTimeout(() => {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const buttonWidth = noButton.offsetWidth;
+        const buttonHeight = noButton.offsetHeight;
+        
+        let newX = Math.random() * (windowWidth - buttonWidth - 100) + 50;
+        let newY = Math.random() * (windowHeight - buttonHeight - 100) + 50;
+        
+        noButton.style.position = 'fixed';
+        noButton.style.left = newX + 'px';
+        noButton.style.top = newY + 'px';
+        noButton.style.transform = `scale(${newSize})`;
+        noButton.style.opacity = '1';
+    }, 500);
+});
         // Yes button - Trigger confetti and show letter
         document.getElementById('yes-button').addEventListener('click', function() {
             // Massive confetti celebration
+            playMusic();
             const duration = 5 * 1000;
             const animationEnd = Date.now() + duration;
             const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
